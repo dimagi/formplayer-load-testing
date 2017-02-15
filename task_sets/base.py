@@ -7,7 +7,7 @@ class WebAppsTaskSet(TaskSet):
 
     def on_start(self):
         # Get csrf token from django
-        login_response = self.client.get('http://localhost:8000/a/aspace/login/')
+        login_response = self.client.get('http://localhost:8000/a/{}/login/'.format(settings.DOMAIN))
 
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
