@@ -8,7 +8,7 @@ class WebAppsTaskSet(TaskSet):
     def on_start(self):
         # Get csrf token from django
         login_response = self.client.get('{}/a/{}/login/'.format(
-            settings.DJANGO_HOST,
+            settings.DJANGO_URI,
             settings.DOMAIN
         ))
 
@@ -23,7 +23,7 @@ class WebAppsTaskSet(TaskSet):
         }
 
         auth_response = self.client.post(
-            '{}/a/{}/login/'.format(settings.DJANGO_HOST, settings.DOMAIN),
+            '{}/a/{}/login/'.format(settings.DJANGO_URI, settings.DOMAIN),
             cookies=login_response.cookies,
             headers=headers,
             data=data,

@@ -13,6 +13,7 @@ class ApplicationTask(WebAppsTaskSet):
             cookies=self.cookies,
             headers={
                 'Content-Type': 'application/json',
+                'Host': settings.DJANGO_HOST,
             },
             json={
                 'app_id': settings.APP_ID,

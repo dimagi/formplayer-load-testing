@@ -1,7 +1,8 @@
 DOMAIN = ''
 USERNAME = ''
 PASSWORD = ''
-DJANGO_HOST = 'http://localhost:8000'
+DJANGO_URI = 'http://localhost:8000'
+DJANGO_HOST = 'localhost:8000'
 RESTORE_AS = None
 
 APP_ID = ''

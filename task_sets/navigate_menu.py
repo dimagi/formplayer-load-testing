@@ -27,6 +27,7 @@ def load_case_list(client, cookies, selections):
         cookies=cookies,
         headers={
             'Content-Type': 'application/json',
+            'Host': settings.DJANGO_HOST,
         },
         json={
             'app_id': settings.APP_ID,
