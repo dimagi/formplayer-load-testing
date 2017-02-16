@@ -29,13 +29,13 @@ def load_case_list(client, cookies, selections):
             'Content-Type': 'application/json',
         },
         json={
-            'app_id': settings.CASE_LIST_APP_ID,
+            'app_id': settings.APP_ID,
             'domain': settings.DOMAIN,
             'locale': "en",
             'offset': 0,
             'selections': selections,
             'oneQuestionPerScreen': False,
-            'restoreAs': None,
+            'restoreAs': settings.RESTORE_AS,
             'username': settings.USERNAME,
         },
     )

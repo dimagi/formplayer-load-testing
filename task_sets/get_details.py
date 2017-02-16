@@ -15,7 +15,7 @@ class CaseDetailTask(WebAppsTaskSet):
                 'Content-Type': 'application/json',
             },
             json={
-                'app_id': settings.CASE_DETAIL_APP_ID,
+                'app_id': settings.APP_ID,
                 'domain': settings.DOMAIN,
                 'locale': "en",
                 'offset': 0,
