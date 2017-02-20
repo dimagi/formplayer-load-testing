@@ -1,4 +1,6 @@
 from locust import TaskSet
+from time import sleep
+from locust.log import console_logger
 
 import settings
 
@@ -29,3 +31,33 @@ class WebAppsTaskSet(TaskSet):
             data=data,
         )
         self.cookies = auth_response.cookies
+
+        # Sync that database
+        sync_db(self.client, self.cookies)
+
+
+def sync_db(client, cookies):
+    response = _sync_db(client, cookies)
+    console_logger.info('Sync response code: {}'.format(response.status_code))
+
+    while response.status_code == 202:
+        sleep(response.json()['retryAfter'])
+        response = _sync_db(client, cookies)
+        console_logger.info('Sync response code: {}'.format(response.status_code))
+
+
+def _sync_db(client, cookies):
+    return client.post(
+        '/sync-db',
+        cookies=cookies,
+        headers={
+            'Content-Type': 'application/json',
+            'Host': settings.DJANGO_HOST,
+        },
+        json={
+            'domain': settings.DOMAIN,
+            'restoreAs': settings.RESTORE_AS,
+            'username': settings.USERNAME,
+            'preserveCache': True,
+        }
+    )

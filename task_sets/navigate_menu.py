@@ -3,6 +3,7 @@ from locust import task
 
 import settings
 from task_sets.base import WebAppsTaskSet
+from locust.log import console_logger
 
 
 class CaseListTask(WebAppsTaskSet):
@@ -22,7 +23,7 @@ class NikshayCaseListTask(CaseListTask):
 
 
 def load_case_list(client, cookies, selections):
-    client.post(
+    response = client.post(
         '/navigate_menu',
         cookies=cookies,
         headers={
@@ -40,3 +41,4 @@ def load_case_list(client, cookies, selections):
             'username': settings.USERNAME,
         },
     )
+    console_logger.info(response.json())
