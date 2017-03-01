@@ -23,14 +23,13 @@ class NikshayCaseListTask(CaseListTask):
 
 
 def load_case_list(client, cookies, selections):
-    response = client.post(
-        '/navigate_menu',
-        cookies=cookies,
-        headers={
+    kwargs = {
+        'cookies': cookies,
+        'headers': {
             'Content-Type': 'application/json',
             'Host': settings.DJANGO_HOST,
         },
-        json={
+        'json': {
             'app_id': settings.APP_ID,
             'domain': settings.DOMAIN,
             'locale': "en",
@@ -40,5 +39,8 @@ def load_case_list(client, cookies, selections):
             'restoreAs': settings.RESTORE_AS,
             'username': settings.USERNAME,
         },
-    )
-    console_logger.info(response.json())
+        'catch_response': True,
+    }
+    with client.post('/navigate_menu', **kwargs) as response:
+        if response.json()['status'] == 'error':
+            response.failure(response.json()['exception'])

@@ -39,11 +39,15 @@ class WebAppsTaskSet(TaskSet):
 def sync_db(client, cookies):
     response = _sync_db(client, cookies)
     console_logger.info('Sync response code: {}'.format(response.status_code))
+    if response.json()['status'] == 'error':
+        raise Exception(response.json()['exception'])
 
     while response.status_code == 202:
         sleep(response.json()['retryAfter'])
         response = _sync_db(client, cookies)
         console_logger.info('Sync response code: {}'.format(response.status_code))
+        if response.json()['status'] == 'error':
+            raise Exception(response.json()['exception'])
 
 
 def _sync_db(client, cookies):
