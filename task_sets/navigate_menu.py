@@ -42,5 +42,5 @@ def load_case_list(client, cookies, selections):
         'catch_response': True,
     }
     with client.post('/navigate_menu', **kwargs) as response:
-        if response.json()['status'] == 'error':
+        if response.json().get('status') == 'error':
             response.failure(response.json()['exception'])
