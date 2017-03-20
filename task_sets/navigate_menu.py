@@ -60,5 +60,8 @@ def load_case_list(client, cookies, restore_as, selections):
         'catch_response': True,
     }
     with client.post('/navigate_menu', **kwargs) as response:
-        if response.json().get('status') == 'error':
-            response.failure(response.json()['exception'])
+        try:
+            if response.json().get('status') == 'error':
+                response.failure(response.json()['exception'])
+        except ValueError:
+            console_logger('Unable to decode JSON, odd.')
