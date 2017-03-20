@@ -1,7 +1,7 @@
 from locust import HttpLocust
 
 from task_sets.install import ApplicationTask
-from task_sets.navigate_menu import CaseListTask, NikshayCaseListTask
+from task_sets.navigate_menu import CaseListTask, NikshayCaseListTask, MultiUserCaseListTask
 from task_sets.get_details import CaseDetailTask
 
 
@@ -25,5 +25,11 @@ class CaseDetailLocust(HttpLocust):
 
 class NikshayCaseListLocust(HttpLocust):
     task_set = NikshayCaseListTask
+    min_wait = 1000
+    max_wait = 1000
+
+
+class MultiUserCaseListLocust(HttpLocust):
+    task_set = MultiUserCaseListTask
     min_wait = 1000
     max_wait = 1000

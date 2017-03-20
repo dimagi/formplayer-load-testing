@@ -1,4 +1,5 @@
 import os
+import random
 from locust import task
 
 import settings
@@ -10,19 +11,36 @@ class CaseListTask(WebAppsTaskSet):
 
     @task
     def load_case_list(self):
-        load_case_list(self.client, self.cookies, settings.CASE_LIST_SELECTIONS)
+        load_case_list(
+            self.client,
+            self.cookies,
+            settings.RESTORE_AS,
+            settings.CASE_LIST_SELECTIONS
+        )
 
 
-class NikshayCaseListTask(CaseListTask):
+class MultiUserCaseListTask(WebAppsTaskSet):
+
+    @task
+    def load_case_list(self):
+        load_case_list(
+            self.client,
+            self.cookies,
+            str(random.randint(1, 500)),
+            [1],
+        )
+
+
+class NikshayCaseListTask(WebAppsTaskSet):
 
     @task
     def load_case_list(self):
         workflow = os.environ.get('WORKFLOW')
         selections = settings.NIKSHAY_WORKFLOWS[workflow]
-        load_case_list(self.client, self.cookies, selections)
+        load_case_list(self.client, self.cookies, settings.RESTORE_AS, selections)
 
 
-def load_case_list(client, cookies, selections):
+def load_case_list(client, cookies, restore_as, selections):
     kwargs = {
         'cookies': cookies,
         'headers': {
@@ -36,7 +54,7 @@ def load_case_list(client, cookies, selections):
             'offset': 0,
             'selections': selections,
             'oneQuestionPerScreen': False,
-            'restoreAs': settings.RESTORE_AS,
+            'restoreAs': restore_as,
             'username': settings.USERNAME,
         },
         'catch_response': True,
