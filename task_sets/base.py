@@ -8,7 +8,13 @@ import settings
 class WebAppsTaskSet(TaskSet):
 
     def on_start(self):
-        # Get csrf token from django
+        # You will want to get a session id if doing a lot of testing
+        if hasattr(settings, 'SESSION_ID'):
+            self.cookies = {
+                'sessionid': settings.SESSION_ID,
+            }
+            return
+
         login_response = self.client.get('{}/a/{}/login/'.format(
             settings.DJANGO_URI,
             settings.DOMAIN
