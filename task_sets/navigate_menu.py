@@ -64,4 +64,4 @@ def load_case_list(client, cookies, restore_as, selections):
             if response.json().get('status') == 'error':
                 response.failure(response.json()['exception'])
         except ValueError:
-            console_logger('Unable to decode JSON, odd.')
+            print 'Unable to decode JSON, odd.'
