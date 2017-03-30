@@ -24,6 +24,9 @@ NIKSHAY_WORKFLOWS = {
     'referrals': [5, 3]
 }
 
+NIKSHAY_DOMAIN = 'enikshay'
+NIKSHAY_APP_ID = '2c07583502c70fc7fa29bf138215b47e'
+
 try:
     from localsettings import *
 except ImportError:

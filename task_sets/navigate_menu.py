@@ -12,6 +12,8 @@ class CaseListTask(WebAppsTaskSet):
     @task
     def load_case_list(self):
         load_case_list(
+            settings.DOMAIN,
+            settings.APP_ID,
             self.client,
             self.cookies,
             settings.RESTORE_AS,
@@ -24,6 +26,8 @@ class MultiUserCaseListTask(WebAppsTaskSet):
     @task
     def load_case_list(self):
         load_case_list(
+            settings.DOMAIN,
+            settings.APP_ID,
             self.client,
             self.cookies,
             str(random.randint(1, 500)),
@@ -37,10 +41,17 @@ class NikshayCaseListTask(WebAppsTaskSet):
     def load_case_list(self):
         workflow = os.environ.get('WORKFLOW')
         selections = settings.NIKSHAY_WORKFLOWS[workflow]
-        load_case_list(self.client, self.cookies, settings.RESTORE_AS, selections)
+        load_case_list(
+            settings.NIKSHAY_DOMAIN,
+            settings.NIKSHAY_APP_ID,
+            self.client,
+            self.cookies,
+            settings.NIKSHAY_RESTORE_AS,
+            selections
+        )
 
 
-def load_case_list(client, cookies, restore_as, selections):
+def load_case_list(domain, app_id, client, cookies, restore_as, selections):
     kwargs = {
         'cookies': cookies,
         'headers': {
@@ -48,8 +59,8 @@ def load_case_list(client, cookies, restore_as, selections):
             'Host': settings.DJANGO_HOST,
         },
         'json': {
-            'app_id': settings.APP_ID,
-            'domain': settings.DOMAIN,
+            'app_id': app_id,
+            'domain': domain,
             'locale': "en",
             'offset': 0,
             'selections': selections,
