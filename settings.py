@@ -13,7 +13,12 @@ CASE_DETAIL_SELECTIONS = []
 
 NIKSHAY_WORKFLOWS = {
     'manage_enrolment': [0],
+    'treatment_card': [1],
+    'edit_treatment_card': [4],
     'tests': [2, 1],
+    'home_visits': [8],
+    'view_patients': [13],
+    'test_request.request_tests': [2, 0],
     'adherence': [3],
     'task_list.treatment': [9, 0],
     'task_list.new_patient': [9, 1],
